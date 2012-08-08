@@ -30,39 +30,39 @@ class CacheBuilderPortalFeed implements CacheBuilder {
 		// build sql query
 		$sql = "
 			 (SELECT n.firstSectionID,
-			         n.articleID AS 'id',
-							 n.username,
-							 n.subject,
-							 n.teaser,
-							 n.time,
-							 'article' AS 'type'
-        	FROM wsip".WSIP_N."_article n
-        	".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
-        UNION 
-        (
-				SELECT n.entryID,
-				       n.entryID AS 'id',
-							 n.username,
-							 n.subject,
-							 n.teaser,
-							 n.time,
-							 'newsEntry' AS 'type'
-        	FROM wsip".WSIP_N."_news_entry n
-        	".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
-        UNION 
-        (
-				SELECT n.firstSectionID,
-				       n.reviewID AS 'id',
-							 n.username,
-							 n.subject,
-							 n.teaser,
-							 n.time,
-							 'review' AS 'type'
-        	FROM wsip".WSIP_N."_review n
-					".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
-				".($this->additionalSqlSelects != '' ? $this->additionalSqlSelects : '')."	
-        ORDER BY time DESC";
-        
+				n.articleID AS 'id',
+				 n.username,
+				 n.subject,
+				 n.teaser,
+				 n.time,
+				 'article' AS 'type'
+			FROM wsip".WSIP_N."_article n
+				".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
+		UNION
+		(
+			SELECT n.entryID,
+				n.entryID AS 'id',
+				 n.username,
+				 n.subject,
+				 n.teaser,
+				 n.time,
+				 'newsEntry' AS 'type'
+			FROM wsip".WSIP_N."_news_entry n
+				".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
+		UNION
+		(
+			SELECT n.firstSectionID,
+				n.reviewID AS 'id',
+				 n.username,
+				 n.subject,
+				 n.teaser,
+				 n.time,
+				 'review' AS 'type'
+			FROM wsip".WSIP_N."_review n
+				".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
+				".($this->additionalSqlSelects != '' ? $this->additionalSqlSelects : '')."
+		ORDER BY time DESC";
+
 		// get items
 		$result = WCF::getDB()->sendQuery($sql, $this->limit);
 		// parse items
@@ -71,30 +71,38 @@ class CacheBuilderPortalFeed implements CacheBuilder {
 				case 'article':
 					$entry = new Article(null, $row);
 					$this->data .= '
-						<item>	
-						    <title>'.StringUtil::encodeHTML($entry->subject).'</title>
-						    <author>'.StringUtil::encodeHTML($entry->username).'</author>
-						    <link>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</link>
-						    <guid>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</guid>
-						    <pubDate>'.date("r", $entry->time).'</pubDate>
-						    <description><![CDATA['.StringUtil::decodeHTML($entry->getFormattedTeaser()).']]></description>
-						</item>';	
+						<item>
+							<title>'.StringUtil::encodeHTML($entry->subject).'</title>
+							<author>'.StringUtil::encodeHTML($entry->username).'</author>
+							<link>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</link>
+							<guid>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</guid>
+							<pubDate>'.date("r", $entry->time).'</pubDate>
+							<description><![CDATA['.StringUtil::decodeHTML($entry->getFormattedTeaser()).']]></description>
+							<comments>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'#comments</comments>
+							<dc:creator>'.StringUtil::encodeHTML($entry->username).'</dc:creator>
+							<content:encoded><![CDATA['.StringUtil::decodeHTML($entry->getFormattedTeaser()).']]></content:encoded>
+						</item>
+					';
 				break;
-				
+
 				case 'newsEntry':
 					$row['entryID'] = $row['id'];
 					$entry = new NewsEntry(null, $row);
 					$this->data .= '
-						<item>	
-						    <title>'.StringUtil::encodeHTML($entry->subject).'</title>
-						    <author>'.StringUtil::encodeHTML($entry->username).'</author>
-						    <link>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</link>
-						    <guid>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</guid>
-						    <pubDate>'.date("r", $entry->time).'</pubDate>
-						    <description><![CDATA['.StringUtil::decodeHTML($entry->getFormattedTeaser()).']]></description>
-						</item>';	
+						<item>
+							<title>'.StringUtil::encodeHTML($entry->subject).'</title>
+							<author>'.StringUtil::encodeHTML($entry->username).'</author>
+							<link>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</link>
+							<guid>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</guid>
+							<pubDate>'.date("r", $entry->time).'</pubDate>
+							<description><![CDATA['.StringUtil::decodeHTML($entry->getFormattedTeaser()).']]></description>
+							<comments>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'#comments</comments>
+							<dc:creator>'.StringUtil::encodeHTML($entry->username).'</dc:creator>
+							<content:encoded><![CDATA['.StringUtil::decodeHTML($entry->getFormattedTeaser()).']]></content:encoded>
+						</item>
+					';
 				break;
-				
+
 				case 'review':
 					$row['reviewID'] = $row['id'];
 				  $authorString = "";
@@ -104,21 +112,25 @@ class CacheBuilderPortalFeed implements CacheBuilder {
 							$authorString .= $author['username'];
 						}
 					$this->data .= '
-						<item>	
-						    <title>'.StringUtil::encodeHTML($entry->subject).'</title>
-						    <author>'.StringUtil::encodeHTML($authorString).'</author>
-						    <link>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</link>
-						    <guid>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</guid>
-						    <pubDate>'.date("r", $entry->time).'</pubDate>
-						    <description><![CDATA['.StringUtil::decodeHTML($entry->getFormattedTeaser()).']]></description>
-						</item>';	
+						<item>
+							<title>'.StringUtil::encodeHTML($entry->subject).'</title>
+							<author>'.StringUtil::encodeHTML($authorString).'</author>
+							<link>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</link>
+							<guid>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'</guid>
+							<pubDate>'.date("r", $entry->time).'</pubDate>
+							<description><![CDATA['.StringUtil::decodeHTML($entry->getFormattedTeaser()).']]></description>
+							<comments>'.StringUtil::encodeHTML(PAGE_URL.'/'.$entry->getURL()).'#comments</comments>
+							<dc:creator>'.StringUtil::encodeHTML($authorString).'</dc:creator>
+							<content:encoded><![CDATA['.StringUtil::decodeHTML($entry->getFormattedTeaser()).']]></content:encoded>
+						</item>
+						';
 				break;
-					
-				default: 
+
+				default:
 					// hook to parsing additional items
 					$this->currentRow = $row;
-					EventHandler::fireAction($this, 'parseAdditionalItems');								
-			}		
+					EventHandler::fireAction($this, 'parseAdditionalItems');
+			}
 		}
 	return $this->data;
 	}
