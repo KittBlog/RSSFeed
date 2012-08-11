@@ -4,7 +4,7 @@
 		<packagename>RSS Portal Feed</packagename>
 		<packagedescription>Adds a RSS feed to the Infinite Portal</packagedescription>
 		<version>1.1.2</version>
-		<date>2011-07-22</date>
+		<date>2012-08-00</date>
 		<standalone>0</standalone>
 		<isunique>0</isunique>
 		<plugin>com.wcfsolutions.wsip</plugin>
@@ -23,24 +23,16 @@
 
 	<instructions type="install">
 		<files>files.tar</files>
+		<templates>templates.tar</templates>
 		<eventlistener>eventlistener.xml</eventlistener>
+		<language languagecode="de">de.xml</language>
+		<language languagecode="en">en.xml</language>
 	</instructions>
 
-	<instructions type="update" fromversion="1.0.0">
+	<instructions type="update" fromversion="1.1.2">
 		<files>files.tar</files>
-		<eventlistener>eventlistener.xml</eventlistener>
-	</instructions>
-
-	<instructions type="update" fromversion="1.0.1">
-		<files>files.tar</files>
-		<eventlistener>eventlistener.xml</eventlistener>
-	</instructions>
-
-	<instructions type="update" fromversion="1.1.0">
-		<files>files.tar</files>
-	</instructions>
-
-	<instructions type="update" fromversion="1.1.1">
-		<files>files.tar</files>
+		<templates>templates.tar</templates>
+		<language languagecode="de">de.xml</language>
+		<language languagecode="en">en.xml</language>
 	</instructions>
 </package>
