@@ -23,14 +23,14 @@
 		<files>files.tar</files>
 		<templates>templates.tar</templates>
 		<eventlistener>eventlistener.xml</eventlistener>
-		<language languagecode="de">de.xml</language>
-		<language languagecode="en">en.xml</language>
+		<languages languagecode="de">de.xml</languages>
+		<languages languagecode="en">en.xml</languages>
 	</instructions>
 
 	<instructions type="update" fromversion="1.1.2">
 		<files>files.tar</files>
 		<templates>templates.tar</templates>
-		<language languagecode="de">de.xml</language>
-		<language languagecode="en">en.xml</language>
+		<languages languagecode="de">de.xml</languages>
+		<languages languagecode="en">en.xml</languages>
 	</instructions>
 </package>
