@@ -6,7 +6,6 @@ require_once(WSIP_DIR.'lib/data/article/Article.class.php');
 require_once(WSIP_DIR.'lib/data/news/NewsEntry.class.php');
 require_once(WSIP_DIR.'lib/data/review/Review.class.php');
 
-
 /**
  * Shows the rss-portal-feed page.
  *
