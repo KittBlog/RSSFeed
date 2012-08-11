@@ -16,7 +16,7 @@ class PortalFeedHeadIncludeListener implements EventListener {
 	 * @see EventListener::execute()
 	 */
 	public function execute($eventObj, $className, $eventName) {
-		WCF::getTPL()->append('specialStyles', '<link rel="alternate" type="application/rss+xml" href="'.PAGE_URL.'/index.php?page=PortalFeed" title="'.PAGE_TITLE.' RSS-Feed (Artikel, Nachrichten &amp; Rezensionen)" />');
+		WCF::getTPL()->append('specialStyles', '<link rel="alternate" type="application/rss+xml" href="'.PAGE_URL.'/index.php?page=PortalFeed" title="'.PAGE_TITLE.' {lang}wsip.rssfeed.description{/lang}" />');
 	}
 }
 ?>
