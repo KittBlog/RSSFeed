@@ -3,7 +3,7 @@
 	<channel>
 		<title>{lang}wsip.rssfeed.title{/lang}</title>
 		<link>{PAGE_URL}</link>
-		<description><[!CDATA[{lang}wcf.global.index.title.description{/lang}]]></description>
+		<description><![CDATA[{lang}wcf.global.index.title.description{/lang}]]></description>
 		<language>de-DE</language>
 		<image>
 			<title>{lang}wsip.rssfeed.title{/lang}</title>
