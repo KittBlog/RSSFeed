@@ -8,7 +8,7 @@
 		<image>
 			<title>{lang}wsip.rssfeed.title{/lang}</title>
 			<link>{PAGE_URL}</link>
-			<url>{PAGE_URL}/{RELATIVE_WCF_DIR}images/kittblogBlack/logo.png</url>
+			<url>{PAGE_URL}/graphics_tablet.png</url>
 		</image>
 		<pubDate>{@'r'|gmdate:TIME_NOW}</pubDate>
 		<lastBuildDate>{@'r'|gmdate:TIME_NOW}</lastBuildDate>
@@ -30,7 +30,7 @@
 			{else}
 				<author>{implode from=$entry->writer item=authorData}{$authorData[username]}{/implode}</author>
 				<dc:creator>{implode from=$entry->writer item=authorData}{$authorData[username]}{/implode}</dc:creator>
-			{/if} 				
+			{/if}
 			</item>
 		{/foreach}
 	</channel>
