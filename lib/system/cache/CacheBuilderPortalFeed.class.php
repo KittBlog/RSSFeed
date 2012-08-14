@@ -70,7 +70,8 @@ class CacheBuilderPortalFeed implements CacheBuilder {
 				 n.time,
 				 'news' AS 'type'
 			FROM wsip".WSIP_N."_news_entry n
-				".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
+				".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '')."
+				AND n.isDisabled = 0)
 		UNION
 		(
 			SELECT n.firstSectionID,
@@ -81,7 +82,8 @@ class CacheBuilderPortalFeed implements CacheBuilder {
 				 n.time,
 				 'review' AS 'type'
 			FROM wsip".WSIP_N."_review n
-				".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
+				".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '')."
+				AND n.isDisabled = 0)
 				".($this->additionalSqlSelects != '' ? $this->additionalSqlSelects : '')."
 		ORDER BY time DESC";
 
