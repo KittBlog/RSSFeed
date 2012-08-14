@@ -53,37 +53,37 @@ class CacheBuilderPortalFeed implements CacheBuilder {
 		$sql = "
 			 (SELECT n.firstSectionID,
 				n.articleID AS 'id',
-				 n.username,
-				 n.subject,
-				 n.teaser,
-				 n.time,
-				 'article' AS 'type'
-			FROM wsip".WSIP_N."_article n
+				n.username,
+				n.subject,
+				n.teaser,
+				n.time,
+				'article' AS 'type'
+			FROM 	wsip".WSIP_N."_article n
 				".($this->hours ? "WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
 		UNION
 		(
-			SELECT n.entryID,
+			SELECT  n.entryID,
 				n.entryID AS 'id',
-				 n.username,
-				 n.subject,
-				 n.teaser,
-				 n.time,
-				 'news' AS 'type'
-			FROM wsip".WSIP_N."_news_entry n
-				n.isDisabled = 0
-				".($this->hours ? "AND WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
+				n.username,
+				n.subject,
+				n.teaser,
+				n.time,
+				'news' AS 'type'
+			FROM 	wsip".WSIP_N."_news_entry n
+			WHERE	n.isDisabled = 0
+				".($this->hours ? " AND n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
 		UNION
 		(
-			SELECT n.firstSectionID,
+			SELECT  n.firstSectionID,
 				n.reviewID AS 'id',
-				 n.username,
-				 n.subject,
-				 n.teaser,
-				 n.time,
-				 'review' AS 'type'
-			FROM wsip".WSIP_N."_review n
-				n.isDisabled = 0
-				".($this->hours ? "AND WHERE n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
+				n.username,
+				n.subject,
+				n.teaser,
+				n.time,
+				'review' AS 'type'
+			FROM	wsip".WSIP_N."_review n
+			WHERE	n.isDisabled = 0
+				".($this->hours ? " AND n.time > ".(TIME_NOW - $this->hours * 3600) : '').")
 				".($this->additionalSqlSelects != '' ? $this->additionalSqlSelects : '')."
 		ORDER BY time DESC";
 
