@@ -98,7 +98,7 @@ class CacheBuilderPortalFeed implements CacheBuilder {
 					$entry = new Article(null, $row);
 				break;
 
-				case 'newsEntry':
+				case 'news':
 					$row['entryID'] = $row['id'];
 					$entry = new NewsEntry(null, $row);
 				break;
